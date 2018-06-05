@@ -1,0 +1,10 @@
+<h1>Мои стратегии:</h1>
+
+<table>
+  <% @strategies.each do |strategy| %>
+    <tr>
+      <td><%= strategy.title %></td>
+      <td><%= link_to 'Показать', strategy_path(strategy) %></td>
+    </tr>
+  <% end %>
+</table>

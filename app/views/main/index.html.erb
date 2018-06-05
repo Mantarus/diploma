@@ -4,9 +4,12 @@
 <h1>Морской бой</h1>
 
 <% if user_signed_in? %>
-  <span>Здравствуйте, <%= current_user.email %></span>
-  <%= link_to 'Выйти', destroy_user_session_path, :method => :delete %>
-  <%= link_to 'Посмотреть стратегии', controller: 'strategies' %>
+  <span>Здравствуйте, <%= current_user.full_name %>
+    (<%= link_to 'Выйти', destroy_user_session_path, :method => :delete %>)</span>
+  <ul>
+    <li><%= link_to 'Посмотреть свои стратегии', strategies_path %></li>
+    <li><%= link_to 'Посмотреть все стратегии', strategies_path %></li>
+  </ul>
 <% else %>
   <%= link_to 'Войти', new_user_session_path %> или <%= link_to 'Зарегистрироваться', new_user_registration_path %>
 <% end %>

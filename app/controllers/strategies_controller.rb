@@ -5,6 +5,10 @@ class StrategiesController < ApplicationController
     @strategies = Strategy.all
   end
 
+  def my
+    @strategies = current_user.strategies
+  end
+
   def show
     @strategy = Strategy.find(params[:id])
   end

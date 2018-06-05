@@ -4,7 +4,10 @@
   <% @strategies.each do |strategy| %>
     <tr>
       <td><%= strategy.title %></td>
-      <td><%= link_to 'Показать', strategy_path(strategy) %></td>
+      <td><%= strategy.user ? strategy.user.full_name : 'Не указан' %></td>
+      <% if strategy.user == current_user %>
+        <td><%= link_to 'Показать', strategy_path(strategy) %></td>
+      <% end %>
     </tr>
   <% end %>
 </table>
