@@ -1,0 +1,14 @@
+<p>
+  <strong>Автор:</strong>
+  <%= @strategy.user ? @strategy.user.full_name : 'Не указан' %>
+</p>
+
+<p>
+  <strong>Название стратегии:</strong>
+  <%= @strategy.title %>
+</p>
+
+<p>
+  <strong>Код стратегии:</strong>
+</p>
+<pre><code><%= @strategy.code %></code></pre>

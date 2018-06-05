@@ -1,2 +1,16 @@
 <h1>Профиль</h1>
+<p>Имя: <%= current_user.full_name %></p>
 <p>Email: <%= current_user.email %></p>
+<p>Список загруженных стратегий:</p>
+<% if current_user.strategies %>
+  <table>
+    <% current_user.strategies.each do |strategy| %>
+    <tr>
+      <td><%= strategy.title %></td>
+      <td><%= link_to 'Показать', strategies_path(strategy) %></td>
+    </tr>
+    <% end %>
+  </table>
+<% else %>
+  <p>Пока не загружено ни одной стратегии</p>
+<% end %>

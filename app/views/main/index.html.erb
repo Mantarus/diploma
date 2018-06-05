@@ -1,12 +1,13 @@
 <p class="notice"><%= notice %></p>
 <p class="alert"><%= alert %></p>
 
-<h1>Welcome page of Seafight application</h1>
-<p>Some text</p>
+<h1>Морской бой</h1>
 
 <% if user_signed_in? %>
   <span>Здравствуйте, <%= current_user.email %></span>
   <%= link_to 'Выйти', destroy_user_session_path, :method => :delete %>
+  <%= link_to 'Посмотреть стратегии', controller: 'strategies' %>
 <% else %>
   <%= link_to 'Войти', new_user_session_path %> или <%= link_to 'Зарегистрироваться', new_user_registration_path %>
 <% end %>
+

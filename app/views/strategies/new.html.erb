@@ -1,0 +1,17 @@
+<h1>Загрузить новую стратегию</h1>
+
+<%= form_with scope: :strategy, url: :strategies, local: true do |form| %>
+  <p>
+    <%= form.label 'Название' %><br>
+    <%= form.text_field 'title' %>
+  </p>
+
+  <p>
+    <%= form.label 'Код стратегии' %><br>
+    <%= form.text_area 'code' %>
+  </p>
+
+  <p>
+    <%= form.submit %>
+  </p>
+<% end %>
