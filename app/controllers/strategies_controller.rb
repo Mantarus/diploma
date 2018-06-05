@@ -6,8 +6,7 @@ class StrategiesController < ApplicationController
   end
 
   def create
-    @strategy = Strategy.new(strategy_params)
-    @strategy.user = current_user
+    @strategy = current_user.strategies.create(strategy_params)
 
     @strategy.save
     redirect_to @strategy

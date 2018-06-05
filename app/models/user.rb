@@ -8,4 +8,5 @@ class User < ApplicationRecord
          :validatable
 
   has_many :strategies
+  has_many :games
 end
