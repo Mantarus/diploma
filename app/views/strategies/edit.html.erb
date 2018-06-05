@@ -1,17 +1,17 @@
-<h1>Загрузить новую стратегию</h1>
+<h1>Изменить стратегию</h1>
 
 <%= form_with scope: :strategy, url: :strategies, local: true do |form| %>
   <p>
     <%= form.label 'Название' %><br>
-    <%= form.text_field 'title' %>
+    <%= form.text_field 'title', autocomplete: 'title' %>
   </p>
 
   <p>
     <%= form.label 'Код стратегии' %><br>
-    <%= form.text_area 'code' %>
+    <%= form.text_area 'code', autocomplete: 'code' %>
   </p>
 
   <p>
-    <%= form.submit 'Загрузить'%>
+    <%= form.submit 'Обновить'%>
   </p>
 <% end %>

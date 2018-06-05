@@ -7,6 +7,9 @@
       <td><%= strategy.user ? strategy.user.full_name : 'Не указан' %></td>
       <% if strategy.user == current_user %>
         <td><%= link_to 'Показать', strategy_path(strategy) %></td>
+        <td><%= link_to 'Удалить', [strategy],
+                         method: :delete,
+                         data: { confirm: 'Вы уверены, что хотите удалить стратегию?' } %></td>
       <% end %>
     </tr>
   <% end %>

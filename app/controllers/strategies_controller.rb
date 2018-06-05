@@ -5,22 +5,36 @@ class StrategiesController < ApplicationController
     @strategies = Strategy.all
   end
 
-  def my
-    @strategies = current_user.strategies
-  end
-
-  def show
-    @strategy = Strategy.find(params[:id])
-  end
-
-  def new; end
-
   def create
     @strategy = Strategy.new(strategy_params)
     @strategy.user = current_user
 
     @strategy.save
     redirect_to @strategy
+  end
+
+  def new; end
+
+  def show
+    @strategy = Strategy.find(params[:id])
+  end
+
+  def edit
+    @strategy = Strategy.find(params[:id])
+  end
+
+  def update
+    @strategy = Strategy.find(params[:id])
+
+    if @strategy.update(strategy_params)
+      redirect_to @strategy
+    end
+  end
+
+  def destroy
+    @strategy = Strategy.find(params[:id])
+    @strategy.destroy
+    redirect_to strategies_path
   end
 
   private

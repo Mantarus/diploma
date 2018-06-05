@@ -10,6 +10,9 @@
     <tr>
       <td><%= strategy.title %></td>
       <td><%= link_to 'Показать', strategies_path(strategy) %></td>
+      <td><%= link_to 'Удалить', [strategy],
+                      method: :delete,
+                      data: { confirm: 'Вы уверены, что хотите удалить стратегию?' } %></td>
     </tr>
     <% end %>
   </table>
