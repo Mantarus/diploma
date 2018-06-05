@@ -9,6 +9,16 @@
   </div>
 
   <div class="field">
+    <%= f.label 'Полное имя' %><br />
+    <%= f.text_field :full_name, autofocus: true, autocomplete: "full_name" %>
+  </div>
+
+  <div class="field">
+    <%= f.label 'Группа' %><br />
+    <%= f.text_field :group, autofocus: true, autocomplete: "group" %>
+  </div>
+
+  <div class="field">
     <%= f.label 'Пароль' %>
     <% if @minimum_password_length %>
     <em>(Не менее <%= @minimum_password_length %> символов)</em>

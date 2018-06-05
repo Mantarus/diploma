@@ -1,5 +1,7 @@
 <h1>Профиль</h1>
+<%= link_to 'Изменить', edit_user_registration_path %>
 <p>Имя: <%= current_user.full_name %></p>
+<p>Группа: <%= current_user.group %></p>
 <p>Email: <%= current_user.email %></p>
 <p>Список загруженных стратегий:</p>
 <% if current_user.strategies %>
