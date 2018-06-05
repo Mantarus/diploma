@@ -3,6 +3,7 @@
 <p>Имя: <%= current_user.full_name %></p>
 <p>Группа: <%= current_user.group %></p>
 <p>Email: <%= current_user.email %></p>
+<%= link_to 'Загрузить стратегию', new_strategy_path %>
 <p>Список загруженных стратегий:</p>
 <% if current_user.strategies %>
   <table>

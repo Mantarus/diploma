@@ -7,7 +7,7 @@
   <span>Здравствуйте, <%= current_user.full_name %>
     (<%= link_to 'Выйти', destroy_user_session_path, :method => :delete %>)</span>
   <ul>
-    <li><%= link_to 'Посмотреть свои стратегии', strategies_path %></li>
+    <li><%= link_to 'Перейти в профиль', persons_profile_path %></li>
     <li><%= link_to 'Посмотреть все стратегии', strategies_path %></li>
   </ul>
 <% else %>
