@@ -32,8 +32,10 @@ class StrategiesController < ApplicationController
 
   def destroy
     @strategy = Strategy.find(params[:id])
-    @strategy.destroy
-    redirect_to strategies_path
+    if @strategy.user == current_user or current_user.admin?
+      @strategy.destroy
+      redirect_to strategies_path
+    end
   end
 
   private

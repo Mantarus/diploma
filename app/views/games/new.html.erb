@@ -1,11 +1,23 @@
 <h1>Создать игру</h1>
 
 <%= form_with scope: :game, url: :games, local: true do |form| %>
-  <%= form.label 'Ваша стратегия' %><br>
-  <%= collection_select(:game, :strategy1_id, current_user.strategies, :id, :title) %><br>
-
-  <%= form.label 'Стратегия противника' %><br>
-  <%= collection_select(:game, :strategy2_id, Strategy.all, :id, :full_title) %><br>
+  <table>
+    <% if current_user.admin? %>
+      <tr>
+        <td><%= form.label 'Ваша стратегия' %></td>
+        <td><%= collection_select(:game, :strategy1_id, Strategy.all, :id, :full_title) %></td>
+      </tr>
+    <% else %>
+      <tr>
+        <td><%= form.label 'Ваша стратегия' %></td>
+        <td><%= collection_select(:game, :strategy1_id, current_user.strategies, :id, :title) %></td>
+      </tr>
+    <% end %>
+    <tr>
+      <td><%= form.label 'Стратегия противника' %></td>
+      <td><%= collection_select(:game, :strategy2_id, Strategy.all, :id, :full_title) %></td>
+    </tr>
+  </table>
 
   <%= form.submit 'Создать игру' %>
 <% end %>

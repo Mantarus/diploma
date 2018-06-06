@@ -1,13 +1,17 @@
 <%= link_to 'На главную', main_index_path %>
 
 <h1>Профиль</h1>
-<%= link_to 'Изменить', edit_user_registration_path %>
+<p><%= 'Администратор' if current_user.admin? %></p>
 
+<h2>Данные:</h2>
 <p>Имя: <%= current_user.full_name %></p>
 <p>Группа: <%= current_user.group %></p>
 <p>Email: <%= current_user.email %></p>
-<%= link_to 'Загрузить стратегию', new_strategy_path %>
-<p>Список загруженных стратегий:</p>
+<%= link_to 'Изменить', edit_user_registration_path %>
+
+<h2>Список загруженных стратегий:</h2>
+<p><%= link_to 'Загрузить новую стратегию', new_strategy_path %></p>
+
 <% if @strategies %>
   <table>
     <% @strategies.each do |strategy| %>
@@ -24,7 +28,7 @@
   <p>Пока не загружено ни одной стратегии</p>
 <% end %>
 
-<p>Список проведенных игр:</p>
+<h2>Список проведенных игр:</h2>
 <% if @games %>
   <table>
     <tr>
