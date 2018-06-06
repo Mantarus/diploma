@@ -1,0 +1,10 @@
+<h1>Game results</h1>
+
+<% if @game.success %>
+  <p><strong>Winner:</strong> <%= @game.winner %></p>
+  <p><strong>Game log:</strong></p>
+  <pre><code><%= @game.game_log %></code></pre>
+<% else %>
+  <p><strong>Error:</strong></p>
+  <pre><code><%= @game.game_error %></code></pre>
+<% end %>

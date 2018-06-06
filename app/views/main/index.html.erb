@@ -9,6 +9,7 @@
   <ul>
     <li><%= link_to 'Перейти в профиль', persons_profile_path %></li>
     <li><%= link_to 'Посмотреть все стратегии', strategies_path %></li>
+    <li><%= link_to 'Создать игру', new_game_path %></li>
   </ul>
 <% else %>
   <%= link_to 'Войти', new_user_session_path %> или <%= link_to 'Зарегистрироваться', new_user_registration_path %>
