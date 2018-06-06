@@ -1,13 +1,16 @@
+<%= link_to 'На главную', main_index_path %>
+
 <h1>Профиль</h1>
 <%= link_to 'Изменить', edit_user_registration_path %>
+
 <p>Имя: <%= current_user.full_name %></p>
 <p>Группа: <%= current_user.group %></p>
 <p>Email: <%= current_user.email %></p>
 <%= link_to 'Загрузить стратегию', new_strategy_path %>
 <p>Список загруженных стратегий:</p>
-<% if current_user.strategies %>
+<% if @strategies %>
   <table>
-    <% current_user.strategies.each do |strategy| %>
+    <% @strategies.each do |strategy| %>
     <tr>
       <td><%= strategy.title %></td>
       <td><%= link_to 'Показать', strategies_path(strategy) %></td>
@@ -15,6 +18,29 @@
                       method: :delete,
                       data: { confirm: 'Вы уверены, что хотите удалить стратегию?' } %></td>
     </tr>
+    <% end %>
+  </table>
+<% else %>
+  <p>Пока не загружено ни одной стратегии</p>
+<% end %>
+
+<p>Список проведенных игр:</p>
+<% if @games %>
+  <table>
+    <tr>
+      <td><strong>Время</strong></td>
+      <td><strong>Стратегия пользователя</strong></td>
+      <td><strong>Стратегия противника</strong></td>
+      <td><strong>Результат</strong></td>
+    </tr>
+    <% @games.each do |game| %>
+      <tr>
+        <td><%= game.created_at.strftime("%Y.%m.%d %H:%M") %></td>
+        <td><%= Strategy.find(game.strategy1_id).title %></td>
+        <td><%= Strategy.find(game.strategy2_id).user.full_name %> - <%= Strategy.find(game.strategy2_id).title %></td>
+        <td><%= game.success ? game.winner : 'Ошибка' %></td>
+        <td><%= link_to 'Показать', game_path(game) %></td>
+      </tr>
     <% end %>
   </table>
 <% else %>

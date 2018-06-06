@@ -1,0 +1,23 @@
+<%= link_to 'На главную', main_index_path %>
+
+<h1>История игр</h1>
+
+<table>
+  <tr>
+    <td><strong>Время</strong></td>
+    <td><strong>Создал</strong></td>
+    <td><strong>Стратегия пользователя</strong></td>
+    <td><strong>Стратегия противника</strong></td>
+    <td><strong>Результат</strong></td>
+  </tr>
+  <% @games.each do |game| %>
+    <tr>
+      <td><%= game.created_at.strftime("%Y.%m.%d %H:%M") %></td>
+      <td><%= game.user.full_name %></td>
+      <td><%= Strategy.find(game.strategy1_id).title %></td>
+      <td><%= Strategy.find(game.strategy2_id).user.full_name %> - <%= Strategy.find(game.strategy2_id).title %></td>
+      <td><%= game.success ? game.winner : 'Ошибка' %></td>
+      <td><%= link_to 'Показать', game_path(game) %></td>
+    </tr>
+  <% end %>
+</table>
