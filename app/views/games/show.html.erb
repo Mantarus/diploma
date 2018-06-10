@@ -1,11 +1,41 @@
 <%= link_to 'Вернуться', :back %>
-<h1>Game results</h1>
 
 <% if @game.success %>
+  <h1>Game replay:</h1>
+
+  <div class="board">
+    <div class="field" id="P1">
+      <% 10.times do |y| %>
+        <div class="field-row">
+          <% 10.times do |x| %>
+            <button class="square" id="<%= "P1_#{x}_#{y}" %>">
+              <%= "#{x} #{y}" %>
+            </button>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="field" id="P2">
+      <% 10.times do |y| %>
+        <div class="field-row">
+          <% 10.times do |x| %>
+            <button class="square" id="<%= "P2_#{x}_#{y}" %>">
+              <%= "#{x} #{y}" %>
+            </button>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
   <p><strong>Winner:</strong> <%= @game.winner %></p>
   <p><strong>Game log:</strong></p>
   <pre><code><%= @game.game_log %></code></pre>
+
 <% else %>
+  <h1>Game status:</h1>
+
   <p><strong>Error:</strong></p>
   <pre><code><%= @game.game_error %></code></pre>
 <% end %>
