@@ -41,7 +41,7 @@
       <tr>
         <td><%= game.created_at.strftime("%Y.%m.%d %H:%M") %></td>
         <td><%= Strategy.find(game.strategy1_id).title %></td>
-        <td><%= Strategy.find(game.strategy2_id).user.full_name %> - <%= Strategy.find(game.strategy2_id).title %></td>
+        <td><%= Strategy.find(game.strategy2_id).full_title %></td>
         <td><%= game.success ? game.winner : 'Ошибка' %></td>
         <td><%= link_to 'Показать', game_path(game) %></td>
       </tr>

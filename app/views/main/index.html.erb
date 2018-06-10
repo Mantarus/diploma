@@ -1,3 +1,4 @@
+<!--Отображение нотификаций при авторизации пользователя-->
 <p class="notice"><%= notice %></p>
 <p class="alert"><%= alert %></p>
 
@@ -13,6 +14,7 @@
     <li><%= link_to 'Создать игру', new_game_path %></li>
   </ul>
 <% else %>
-  <%= link_to 'Войти', new_user_session_path %> или <%= link_to 'Зарегистрироваться', new_user_registration_path %>
+  <%= link_to 'Войти', new_user_session_path %>
+  или <%= link_to 'Зарегистрироваться', new_user_registration_path %>
 <% end %>
 

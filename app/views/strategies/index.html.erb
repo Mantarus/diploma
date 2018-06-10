@@ -10,7 +10,7 @@
   <% @strategies.each do |strategy| %>
     <tr>
       <td><%= strategy.title %></td>
-      <td><%= strategy.user ? strategy.user.full_name : 'Не указан' %></td>
+      <td><%= strategy.user.full_name %></td>
       <% if strategy.user == current_user or current_user.admin? %>
         <td><%= link_to 'Показать', strategy_path(strategy) %></td>
         <td><%= link_to 'Удалить', [strategy],

@@ -5,17 +5,20 @@
     <% if current_user.admin? %>
       <tr>
         <td><%= form.label 'Ваша стратегия' %></td>
-        <td><%= collection_select(:game, :strategy1_id, Strategy.all, :id, :full_title) %></td>
+        <td><%= collection_select(:game, :strategy1_id,
+                                  Strategy.all, :id, :full_title) %></td>
       </tr>
     <% else %>
       <tr>
         <td><%= form.label 'Ваша стратегия' %></td>
-        <td><%= collection_select(:game, :strategy1_id, current_user.strategies, :id, :title) %></td>
+        <td><%= collection_select(:game, :strategy1_id,
+                                  current_user.strategies, :id, :title) %></td>
       </tr>
     <% end %>
     <tr>
       <td><%= form.label 'Стратегия противника' %></td>
-      <td><%= collection_select(:game, :strategy2_id, Strategy.all, :id, :full_title) %></td>
+      <td><%= collection_select(:game, :strategy2_id,
+                                Strategy.all, :id, :full_title) %></td>
     </tr>
   </table>
 
