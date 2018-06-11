@@ -20,7 +20,7 @@ const WATER_COLOR = "#a2ffff";
 const HIT_COLOR = "#ff3a36";
 const MISS_COLOR = "#ffffff";
 
-function play(game_log) {
+async function play(game_log) {
     clear_field();
 
     let lines = game_log.split(";");
@@ -28,7 +28,8 @@ function play(game_log) {
     for (let i = 0; i < lines.length; i++) {
         let tokens = lines[i].split('\t');
         if (tokens[0] === "pl") {
-            process_pl_line(tokens)
+            process_pl_line(tokens);
+            // await sleep(100)
         }
     }
 }
@@ -76,4 +77,8 @@ function clear_field() {
     for (let i = 0; i < fields.length; i++) {
         fields[i].style.backgroundColor = WATER_COLOR;
     }
+}
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }
