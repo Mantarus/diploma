@@ -19,7 +19,7 @@ const SHIP_COLOR = "#6f6f6f";
 const WATER_COLOR = "#a2ffff";
 const HIT_COLOR = "#ff3a36";
 const MISS_COLOR = "#ffffff";
-const SLEEP_TIME = 500;
+const SLEEP_TIME = 0;
 
 let ships_map = {
     P1: [],
@@ -54,8 +54,7 @@ function process_pl_line(tokens) {
     let ship_hor = tokens[4] === "true";
     let ship_y = parseInt(tokens[5]);
     let ship_x = parseInt(tokens[6]);
-
-    ship_coords = render_ship(player, ship_x, ship_y, ship_len, ship_hor, [], 100);
+    let ship_coords = render_ship(player, ship_x, ship_y, ship_len, ship_hor, [], 100);
 
     ships_map[player][ship_idx] = {
         id: ship_idx,
@@ -75,25 +74,43 @@ function process_mv_line(tokens) {
     let ship_coords = ships_map[player][ship_idx].coords;
     let ship_hp = ships_map[player][ship_idx].hp;
 
+    console.log(`MOVE ${player} ${ship_idx} ${ship_x} ${ship_y} ${ship_hor}`);
     ships_map[player][ship_idx].coords =
         render_ship(player, ship_x, ship_y, ship_len, ship_hor, ship_coords, ship_hp)
 }
 
 async function process_st_line(tokens) {
     let player = tokens[1];
-    let shot_y = parseInt(tokens[3]);
-    let shot_x = parseInt(tokens[4]);
-    let result = tokens[5];
+    let shot_y = parseInt(tokens[2]);
+    let shot_x = parseInt(tokens[3]);
+    let result = tokens[4];
     let ship_idx;
     let ship_hp;
     let opponent = player === "P1" ? "P2" : "P1";
+
+    console.log(`SHOT ${player}`);
+    if (result.startsWith("killed")) {
+        console.log(`KILL ${opponent}`);
+
+        let ship = find_ship(opponent, shot_x, shot_y);
+        clear_ship(opponent, ship);
+        ships_map[opponent] = ships_map[opponent].filter(item => item != ship);
+        console.log(ships_map[opponent])
+    }
     if (result === "wounded") {
-        ship_idx = tokens[6];
-        ship_hp = tokens[7];
+        console.log(`WOUNDED ${opponent}`);
+
+        ship_idx = tokens[5];
+        ship_hp = tokens[6];
         color_cell(opponent, shot_x, shot_y, HIT_COLOR, null);
         await sleep(SLEEP_TIME);
-        // render_ship(opponent, )
-    } if (result === "miss") {
+        let ship = find_ship(opponent, shot_x, shot_y);
+        ship.hp = ship_hp;
+        update_ship(opponent, ship)
+    }
+    if (result === "miss") {
+        console.log(`MISS ${opponent}`);
+
         color_cell(opponent, shot_x, shot_y, MISS_COLOR, null);
         await sleep(SLEEP_TIME);
         color_cell(opponent, shot_x, shot_y, WATER_COLOR, null);
@@ -102,6 +119,31 @@ async function process_st_line(tokens) {
 
 function get_cell_id(player, x, y) {
     return `${player}_${x}_${y}`
+}
+
+function find_ship(player, x, y) {
+    // console.log(player, x, y);
+    // console.log(ships_map[player]);
+    let ship = ships_map[player].filter(ship => {
+        let contains = false;
+        ship.coords.forEach(coord => {
+            if (coord[0] === x && coord[1] === y)
+                contains = true
+        });
+        return contains;
+    });
+    // console.log(ships_map[player]);
+    if (ship.length)
+        return ship[0];
+    return null;
+}
+
+function update_ship(player, ship) {
+    let ship_x = ship.coords[0][0];
+    let ship_y = ship.coords[0][1];
+    let ship_len = ship.coords.length;
+    let ship_hor = ship_len === 1 || ship.coords[0][1] === ship.coords[1][1];
+    render_ship(player, ship_x, ship_y, ship_len, ship_hor, ship.coords, ship.hp)
 }
 
 function render_ship(player, ship_x, ship_y, ship_len, ship_hor, old_coords, hp) {
@@ -127,6 +169,10 @@ function render_ship(player, ship_x, ship_y, ship_len, ship_hor, old_coords, hp)
 
     // Вернуть массив новых координат корабля
     return new_coords
+}
+
+function clear_ship(player, ship) {
+    ship.coords.forEach(coord => color_cell(player, coord[0], coord[1], WATER_COLOR, ""))
 }
 
 function color_cell(player, x, y, color, value) {
