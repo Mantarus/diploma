@@ -39,3 +39,5 @@
   <p><strong>Error:</strong></p>
   <pre><code><%= @game.game_error %></code></pre>
 <% end %>
+
+<%= javascript_tag "play(\"#{@game.log_with_linebreaks}\")" %>
