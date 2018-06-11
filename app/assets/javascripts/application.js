@@ -19,10 +19,11 @@ const SHIP_COLOR = "#6f6f6f";
 const WATER_COLOR = "#a2ffff";
 const HIT_COLOR = "#ff3a36";
 const MISS_COLOR = "#ffffff";
+const SLEEP_TIME = 500;
 
 let ships_map = {
-    P1: {},
-    P2: {}
+    P1: [],
+    P2: []
 };
 
 async function play(game_log) {
@@ -36,9 +37,12 @@ async function play(game_log) {
         if (tokens[0] === "pl") {
             process_pl_line(tokens);
         } if (tokens[0] === "mv") {
-
+            process_mv_line(tokens);
+            await sleep(SLEEP_TIME)
+        } if (tokens[0] === "st") {
+            await process_st_line(tokens);
+            await sleep(SLEEP_TIME)
         }
-        // await sleep(100)
     }
     console.log(ships_map)
 }
@@ -51,7 +55,7 @@ function process_pl_line(tokens) {
     let ship_y = parseInt(tokens[5]);
     let ship_x = parseInt(tokens[6]);
 
-    ship_coords = render_ship(player, ship_x, ship_y, ship_len, ship_hor, []);
+    ship_coords = render_ship(player, ship_x, ship_y, ship_len, ship_hor, [], 100);
 
     ships_map[player][ship_idx] = {
         id: ship_idx,
@@ -61,15 +65,50 @@ function process_pl_line(tokens) {
     }
 }
 
+function process_mv_line(tokens) {
+    let player = tokens[1];
+    let ship_idx = parseInt(tokens[2]);
+    let ship_hor = tokens[3] === "true";
+    let ship_y = parseInt(tokens[4]);
+    let ship_x = parseInt(tokens[5]);
+    let ship_len = ships_map[player][ship_idx].len;
+    let ship_coords = ships_map[player][ship_idx].coords;
+    let ship_hp = ships_map[player][ship_idx].hp;
+
+    ships_map[player][ship_idx].coords =
+        render_ship(player, ship_x, ship_y, ship_len, ship_hor, ship_coords, ship_hp)
+}
+
+async function process_st_line(tokens) {
+    let player = tokens[1];
+    let shot_y = parseInt(tokens[3]);
+    let shot_x = parseInt(tokens[4]);
+    let result = tokens[5];
+    let ship_idx;
+    let ship_hp;
+    let opponent = player === "P1" ? "P2" : "P1";
+    if (result === "wounded") {
+        ship_idx = tokens[6];
+        ship_hp = tokens[7];
+        color_cell(opponent, shot_x, shot_y, HIT_COLOR, null);
+        await sleep(SLEEP_TIME);
+        // render_ship(opponent, )
+    } if (result === "miss") {
+        color_cell(opponent, shot_x, shot_y, MISS_COLOR, null);
+        await sleep(SLEEP_TIME);
+        color_cell(opponent, shot_x, shot_y, WATER_COLOR, null);
+    }
+}
+
 function get_cell_id(player, x, y) {
     return `${player}_${x}_${y}`
 }
 
-function render_ship(player, ship_x, ship_y, ship_len, ship_hor, old_coords) {
-    console.log([player, ship_x, ship_y, ship_len, ship_hor]);
+function render_ship(player, ship_x, ship_y, ship_len, ship_hor, old_coords, hp) {
+    // console.log([player, ship_x, ship_y, ship_len, ship_hor]);
 
     // Очистить старые клетки
-    old_coords.forEach(coord => color_cell(player, coord[0], coord[1], WATER_COLOR));
+    old_coords.forEach(coord => color_cell(player, coord[0], coord[1], WATER_COLOR, ""));
 
     let dim;
     if (ship_hor)
@@ -81,7 +120,7 @@ function render_ship(player, ship_x, ship_y, ship_len, ship_hor, old_coords) {
     for (let x = 0; x < dim[0]; x++) {
         for (let y = 0; y < dim[1]; y++) {
             // console.log([ship_x + x, ship_y + y]);
-            color_cell(player, ship_x + x, ship_y + y, SHIP_COLOR);
+            color_cell(player, ship_x + x, ship_y + y, SHIP_COLOR, hp);
             new_coords.push([ship_x + x, ship_y + y])
         }
     }
@@ -90,15 +129,17 @@ function render_ship(player, ship_x, ship_y, ship_len, ship_hor, old_coords) {
     return new_coords
 }
 
-function color_cell(player, x, y, color) {
+function color_cell(player, x, y, color, value) {
     let cell_id = get_cell_id(player, x, y);
     document.getElementById(`${cell_id}`).style.backgroundColor = color;
+    document.getElementById(`${cell_id}`).innerText = value;
 }
 
 function clear_field() {
     let fields = document.getElementsByClassName("square");
     for (let i = 0; i < fields.length; i++) {
         fields[i].style.backgroundColor = WATER_COLOR;
+        fields[i].style.innerText = "";
     }
 }
 
