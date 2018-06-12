@@ -3,26 +3,27 @@
 <% if @game.success %>
   <h1>Game replay:</h1>
 
+<!-- Элемент страницы, отвечающий за игровое поле в целом -->
   <div class="board">
+    <!-- Игровое поле первого игрока -->
     <div class="field" id="P1">
+      <!-- Вложенный цикл, отображающий поле 10х10 элементов -->
       <% 10.times do |y| %>
         <div class="field-row">
           <% 10.times do |x| %>
-            <button class="square" id="<%= "P1_#{x}_#{y}" %>">
-              <%#= "#{x} #{y}" %>
-            </button>
+            <button class="square" id="<%= "P1_#{x}_#{y}" %>"/>
           <% end %>
         </div>
       <% end %>
     </div>
 
+    <!-- Игровое поле второго игрока -->
     <div class="field" id="P2">
+      <!-- Вложенный цикл, отображающий поле 10х10 элементов -->
       <% 10.times do |y| %>
         <div class="field-row">
           <% 10.times do |x| %>
-            <button class="square" id="<%= "P2_#{x}_#{y}" %>">
-              <%#= "#{x} #{y}" %>
-            </button>
+            <button class="square" id="<%= "P2_#{x}_#{y}" %>"/>
           <% end %>
         </div>
       <% end %>
